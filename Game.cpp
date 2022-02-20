@@ -6,7 +6,27 @@
 void Game::initWindow()
 {   
     /* Creates a SFML window using options from a window.ini file. */
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "C++ SFML RPG");
+    std::ifstream ifs("Config/window.ini"); // infile stream
+
+    /* Default settings ... */
+    std::string title = "None";
+    sf::VideoMode window_bounds(800, 600);
+    unsigned framerate_limit = 120;
+    bool vertical_sync_enabled = false;
+
+    /* If file is open, read from window.ini file instead... */
+    if (ifs.is_open()) {
+        std::getline(ifs, title);
+        ifs >> window_bounds.width >> window_bounds.height;
+        ifs >> framerate_limit;
+        ifs >> vertical_sync_enabled;
+    }
+
+    ifs.close();
+
+	this->window = new sf::RenderWindow(window_bounds, title);
+    this->window->setFramerateLimit(framerate_limit);
+    this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
 // Constructors / Destructors
@@ -28,7 +48,8 @@ void Game::updateDt()
     /* Updates the dt variable with the time it takes to update and render one frame. */
     this->dt = this->dtClock.restart().asSeconds();
 
-    system("cls");
+    
+    system("cls"); // Clears the screen.
     std::cout << this->dt << std::endl;
 }
 
