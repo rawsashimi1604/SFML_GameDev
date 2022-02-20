@@ -7,6 +7,8 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <stack>
+#include <map>
 
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
@@ -31,4 +33,3 @@ public:
 };
 
 #endif
-

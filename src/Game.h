@@ -14,9 +14,12 @@ private:
 	sf::Clock dtClock;
 	float dt;
 
+	/* State is pointer because it is an abstract class... */
+	std::stack<State*> states;
+
 	// Initialization
 	void initWindow();
-
+	void initStates();
 
 public:
 	// Constructors / Destructors
