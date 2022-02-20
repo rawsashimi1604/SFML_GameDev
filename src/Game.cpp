@@ -31,7 +31,7 @@ void Game::initWindow()
 
 void Game::initStates()
 {
-    /*this->states.push();*/
+    this->states.push(new GameState(this->window));
 
 }
 
@@ -39,6 +39,7 @@ void Game::initStates()
 Game::Game()
 {
     this->initWindow();
+    this->initStates();
 }
 
 
@@ -47,6 +48,12 @@ Game::~Game()
 {   
     /* Deallocate dynamic memory in heap */
 	delete this->window;
+
+    /* Remove all states */
+    while (!this->states.empty()) {
+        delete this->states.top();
+        this->states.pop();
+    }
 }
 
 void Game::updateDt()
@@ -54,9 +61,6 @@ void Game::updateDt()
     /* Updates the dt variable with the time it takes to update and render one frame. */
     this->dt = this->dtClock.restart().asSeconds();
 
-    
-    system("cls"); // Clears the screen.
-    std::cout << this->dt << std::endl;
 }
 
 // Functions 
@@ -77,7 +81,7 @@ void Game::update()
     this->updateSFMLEvents();
 
     if (!this->states.empty()) {
-        this->states.top()->update();
+        this->states.top()->update(this->dt);
     }
 
 }
@@ -88,7 +92,7 @@ void Game::render()
 
     // Render items
     if (!this->states.empty()) {
-        this->states.top()->render();
+        this->states.top()->render(this->window);
     }
 
     this->window->display();

@@ -20,16 +20,20 @@ class State
 {
 
 private:
+	sf::RenderWindow* window;
 	std::vector<sf::Texture> textures;
 
 
 public:
-	State();
+	State(sf::RenderWindow* window);
 	virtual ~State();
 
-	/* Pure virtual function.. abstract functions.. */
-	virtual void update() = 0;
-	virtual void render() = 0;
+	/* Pure virtual functions.. abstract functions.. */
+	virtual void endState() = 0;
+	virtual void update(const float &dt) = 0;
+
+	/* If nothing is given, render to window. Else, render to specific target.*/
+	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 };
 
 #endif
